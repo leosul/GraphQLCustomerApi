@@ -11,8 +11,17 @@ public class CustomerQuery
         _customerService = customerService;
     }
 
-    public async Task<IEnumerable<Customer>> GetCustomersAsync()
+    //FIND
+    public async Task<IEnumerable<Customer>> FindAllCustomersAsync()
     {
-        return await _customerService.GetCustomersAsync();
+        return await _customerService.FindAllCustomersAsync();
+    }
+    public async Task<Customer> FindCustomerByIdAsync(Guid id)
+    {
+        return await _customerService.FindCustomerByIdAsync(id);
+    }
+    public async Task<IEnumerable<Customer>> FindCustomersByNameAsync(string name)
+    {
+        return await _customerService.FindCustomersByNameAsync(name);
     }
 }

@@ -18,21 +18,21 @@ public class Invoice
     }
 
     [Key]
-    public Guid Id { get; set; } = Guid.NewGuid();
+    public Guid Id { get; private set; }
 
     [Required(ErrorMessage = "Invoice Number is required")]
-    public string InvoiceNumber { get; set; }
+    public string InvoiceNumber { get; private set; }
 
     [Required(ErrorMessage = "Gross Value is required")]
-    public decimal GrossValue { get; set; }
+    public decimal GrossValue { get; private set; }
 
     [Required(ErrorMessage = "Net Value is required")]
-    public decimal NetValue { get; set; }
+    public decimal NetValue { get; private set; }
 
     [Required(ErrorMessage = "Invoice Date is required")]
-    public DateTime InvoiceDate { get; set; }
+    public DateTime InvoiceDate { get; private set; }
 
     [ForeignKey("CustomerId")]
-    public Guid CustomerId { get; set; }
-    public Customer Customer { get; set; }
+    public Guid CustomerId { get; private set; }
+    public Customer Customer { get; private set; }
 }
