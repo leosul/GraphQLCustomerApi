@@ -3,9 +3,9 @@ using GraphQlCustomersManager.Models;
 
 namespace GraphQlCustomersManager.Seeders;
 
-public class DbInitializer
+public class DbInitializerByContext
 {
-    public DbInitializer(CustomerDbContext context)
+    public DbInitializerByContext(CustomerDbContext context)
     {
         context.Customers.AddRange(Initialize());
     }

@@ -1,6 +1,5 @@
 using GraphQlCustomersManager.Data;
 using GraphQlCustomersManager.Interfaces;
-using GraphQlCustomersManager.Seeders;
 using GraphQlCustomersManager.Services;
 using GraphQLCustomersManager.GraphQL.GrapgQLMutations;
 using GraphQLCustomersManager.GraphQL.GraphQLQueries;
@@ -9,10 +8,12 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Configuration.SetBasePath(builder.Environment.ContentRootPath);
+builder.Configuration.AddJsonFile("appsettings.json", true, true);
+builder.Configuration.AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", true, true);
 
 builder.Services.AddDbContext<CustomerDbContext>(options =>
-    options.UseInMemoryDatabase("CustomerDatabase"));
-builder.Services.AddScoped<CustomerDbContext, CustomerDbContext>();
+                options.UseSqlServer(builder.Configuration["ConnectionStrings:DefaultConnection"]));
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
@@ -42,16 +43,4 @@ app.MapControllers();
 
 app.MapGraphQL();
 
-SeedDatabase(app);
-
 app.Run();
-
-static void SeedDatabase(IHost host)
-{
-    using var scope = host.Services.CreateScope();
-    var services = scope.ServiceProvider;
-    var context = services.GetRequiredService<CustomerDbContext>();
-
-    new DbInitializer(context).Initialize();
-    context.SaveChanges();
-}

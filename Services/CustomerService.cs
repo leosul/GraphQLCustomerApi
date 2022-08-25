@@ -44,7 +44,7 @@ public class CustomerService : ICustomerService
 
     public async Task<IEnumerable<Customer>> FindCustomersByNameAsync(string name)
     {
-        return await _context.Customers.AsNoTracking().Include(s => s.Invoices).AsNoTracking().Where(s => name.Contains(s.Name)).ToListAsync();
+        return await _context.Customers.AsNoTracking().Include(s => s.Invoices).AsNoTracking().Where(s => s.Name.Contains(name)).ToListAsync();
     }
 
     //EDIT
