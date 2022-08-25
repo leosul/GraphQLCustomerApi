@@ -6,7 +6,7 @@ public interface ICustomerService
 {
     /*ADD*/
     Task<Customer> AddCustomerAsync(Customer customer);
-    Task<Invoice> AddInvoiceAsync(Invoice invoice);
+    Task<Customer> AddInvoiceAsync(Invoice invoice);
 
     /*FIND*/
     Task<IEnumerable<Customer>> FindAllCustomersAsync();

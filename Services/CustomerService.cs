@@ -23,12 +23,12 @@ public class CustomerService : ICustomerService
         return customer;
     }
 
-    public async Task<Invoice> AddInvoiceAsync(Invoice invoice)
+    public async Task<Customer> AddInvoiceAsync(Invoice invoice)
     {
         await _context.Invoices.AddAsync(invoice);
         await _context.SaveChangesAsync();
 
-        return invoice;
+        return await _context.Customers.AsNoTracking().Include(s => s.Invoices).AsNoTracking().FirstOrDefaultAsync(s => s.Id == invoice.CustomerId);
     }
 
     //FIND

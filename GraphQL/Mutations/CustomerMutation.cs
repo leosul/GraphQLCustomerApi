@@ -43,5 +43,5 @@ public class CustomerMutation
     //Return Payload
     public record CustomerPayload(Customer Record);
 
-    public record InvoicePayload(Invoice Record);
+    public record InvoicePayload(Customer Record);
 }
