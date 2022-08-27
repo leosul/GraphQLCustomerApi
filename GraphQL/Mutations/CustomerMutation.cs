@@ -26,18 +26,22 @@ public class CustomerMutation
         return new InvoicePayload(await customerService.AddInvoiceAsync(invoice));
     }
 
-    public async Task<Customer> UpdateCustomerAsync(Customer customer, [Service] ICustomerService customerService)
+    public async Task<Customer> UpdateCustomerAsync(Guid id, CustomerViewModel customer, [Service] ICustomerService customerService)
     {
-        await customerService.UpdateCustomerAsync(customer);
+        var customerupdate = await customerService.FindCustomerByIdAsync(id);
 
-        return customer;
+        customerupdate.Update(customer.Name, customer.IsActive);
+
+        return await customerService.UpdateCustomerAsync(customerupdate);
     }
 
     public async Task<Customer> DeleteCustomerByIdAsync(Guid id, [Service] ICustomerService customerService)
     {
+        var customer = await customerService.FindCustomerByIdAsync(id);
+
         await customerService.RemoveCustomerByIdAsync(id);
 
-        return await customerService.FindCustomerByIdAsync(id);
+        return customer;
     }
 
     //Return Payload

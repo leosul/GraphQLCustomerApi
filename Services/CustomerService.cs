@@ -36,7 +36,6 @@ public class CustomerService : ICustomerService
     {
         return await _context.Customers.AsNoTracking().Include(s => s.Invoices).AsNoTracking().ToListAsync();
     }
-
     public async Task<Customer> FindCustomerByIdAsync(Guid id)
     {
         return await _context.Customers.AsNoTracking().Include(s => s.Invoices).AsNoTracking().FirstOrDefaultAsync(s => s.Id == id);
@@ -60,7 +59,7 @@ public class CustomerService : ICustomerService
     public async Task<Customer> RemoveCustomerByIdAsync(Guid id)
     {
         var customer = _context.Customers.FirstOrDefault(c => c.Id == id);
-        
+
         _context.Customers.Remove(customer);
         await _context.SaveChangesAsync();
 

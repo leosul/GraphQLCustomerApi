@@ -1,5 +1,7 @@
-﻿using GraphQlCustomersManager.Interfaces;
+﻿using GraphQlCustomersManager.Data;
+using GraphQlCustomersManager.Interfaces;
 using GraphQlCustomersManager.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace GraphQLCustomersManager.GraphQL.GraphQLQueries;
 
@@ -16,6 +18,14 @@ public class CustomerQuery
     {
         return await _customerService.FindAllCustomersAsync();
     }
+
+    [UseDbContext(typeof(CustomerDbContext))]
+    [UseOffsetPaging(IncludeTotalCount = true, DefaultPageSize = 10)]
+    public IQueryable<Customer> FindAllCustomersPagedAsync([ScopedService] CustomerDbContext context)
+    {
+        return context.Customers.AsNoTracking();
+    }
+
     public async Task<Customer> FindCustomerByIdAsync(Guid id)
     {
         return await _customerService.FindCustomerByIdAsync(id);

@@ -17,6 +17,12 @@ public class Customer
 
     public void AddInvoice(ICollection<Invoice> invoices) => Invoices = invoices;
 
+    public void Update(string name, bool isActive)
+    {
+        Name = name;
+        IsActive=isActive;
+    }
+
     [Key]
     public Guid Id { get; private set; }
 

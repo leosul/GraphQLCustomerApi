@@ -12,8 +12,9 @@ builder.Configuration.SetBasePath(builder.Environment.ContentRootPath);
 builder.Configuration.AddJsonFile("appsettings.json", true, true);
 builder.Configuration.AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", true, true);
 
-builder.Services.AddDbContext<CustomerDbContext>(options =>
-                options.UseSqlServer(builder.Configuration["ConnectionStrings:DefaultConnection"]));
+builder.Services.AddDbContextFactory<CustomerDbContext>(options => options
+    .UseSqlServer(builder.Configuration["ConnectionStrings:DefaultConnection"])
+    .LogTo(Console.WriteLine));
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
@@ -25,7 +26,10 @@ builder.Services.AddScoped<CustomerQuery>();
 builder.Services.AddGraphQLServer()
     .AddQueryType<CustomerQuery>()
     .AddType<CustomerType>()
-    .AddMutationType<CustomerMutation>();
+    .AddMutationType<CustomerMutation>()
+    .AddFiltering()
+    .AddSorting()
+    .AddProjections();
 
 var app = builder.Build();
 
